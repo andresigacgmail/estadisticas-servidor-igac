@@ -37,11 +37,10 @@ public class ServidorServiceImpl implements ServidorService {
             return null;
         }
 
-        Servidor servidorUpdate = new Servidor();
-        servidorUpdate.setIp_publica(servidor.getIp_publica());
-        servidorUpdate.setIp_local(servidor.getIp_local());
+        servidorOptional.get().setIp_publica(servidor.getIp_publica());
+        servidorOptional.get().setIp_local(servidor.getIp_local());
 
-        return servidorRepository.save(servidorUpdate);
+        return servidorRepository.save(servidorOptional.get());
     }
 
     @Override

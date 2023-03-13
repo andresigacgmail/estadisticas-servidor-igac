@@ -1,5 +1,7 @@
 package com.igac.estadisticasservidorigac.dtos;
 
+import java.util.List;
+
 public class EstadisticaDto {
 
 
@@ -8,48 +10,26 @@ public class EstadisticaDto {
 
     }
 
-    public EstadisticaDto(double disco_total, double disco_disponible, double disco_uso, double memoria_total, double memoria_disponible, double memoria_uso) {
-        this.disco_total = disco_total;
-        this.disco_disponible = disco_disponible;
-        this.disco_uso = disco_uso;
+    public EstadisticaDto(List<DiscoDto> discos, double memoria_total, double memoria_disponible, double memoria_uso) {
+        this.discos = discos;
         this.memoria_total = memoria_total;
-        this.Memoria_disponible = memoria_disponible;
+        Memoria_disponible = memoria_disponible;
         this.memoria_uso = memoria_uso;
     }
 
+    private List<DiscoDto> discos;
 
-
-    private double disco_total;
-    private double disco_disponible;
-    private double disco_uso;
     private double memoria_total;
     private double Memoria_disponible;
     private double memoria_uso;
 
 
-
-    public double getDisco_total() {
-        return disco_total;
+    public List<DiscoDto> getDiscos() {
+        return discos;
     }
 
-    public void setDisco_total(double disco_total) {
-        this.disco_total = disco_total;
-    }
-
-    public double getDisco_disponible() {
-        return disco_disponible;
-    }
-
-    public void setDisco_disponible(double disco_disponible) {
-        this.disco_disponible = disco_disponible;
-    }
-
-    public double getDisco_uso() {
-        return disco_uso;
-    }
-
-    public void setDisco_uso(double disco_uso) {
-        this.disco_uso = disco_uso;
+    public void setDiscos(List<DiscoDto> discos) {
+        this.discos = discos;
     }
 
     public double getMemoria_total() {

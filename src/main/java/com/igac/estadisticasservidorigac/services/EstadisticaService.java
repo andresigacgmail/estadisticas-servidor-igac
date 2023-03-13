@@ -1,13 +1,18 @@
 package com.igac.estadisticasservidorigac.services;
 
+import com.igac.estadisticasservidorigac.dtos.EstadisticaDto;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public interface EstadisticaService {
 
 
+    Map<String, Object> estadisticaServerIndividual(long id);
 
-    //getCurrentStatus();
+    void guardarEstadosAutomatico();
 
-    //getHistoricalStats();
+    Map<String, Object> grupoEstadisticas(long id);
+
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
 @Table(name = "estadisticas")
 public class Estadistica {
@@ -13,7 +14,18 @@ public class Estadistica {
     public Estadistica() {
     }
 
-    public Estadistica(long id, double disco_total, double disco_disponible, double disco_uso, double memoria_total, double memoria_disponible, double memoria_uso, int id_servidor, Date creado, Date actualizado) {
+
+    public Estadistica(double disco_total, double disco_disponible, double disco_uso, double memoria_total, double memoria_disponible, double memoria_uso, long id_servidor) {
+        this.disco_total = disco_total;
+        this.disco_disponible = disco_disponible;
+        this.disco_uso = disco_uso;
+        this.memoria_total = memoria_total;
+        Memoria_disponible = memoria_disponible;
+        this.memoria_uso = memoria_uso;
+        this.id_servidor = id_servidor;
+    }
+
+    public Estadistica(long id, double disco_total, double disco_disponible, double disco_uso, double memoria_total, double memoria_disponible, double memoria_uso, long id_servidor, Date creado, Date actualizado) {
         this.id = id;
         this.disco_total = disco_total;
         this.disco_disponible = disco_disponible;
@@ -39,11 +51,13 @@ public class Estadistica {
     private double memoria_uso;
 
 
-    private int id_servidor;
+    private long id_servidor;
     @CreationTimestamp
     private Date creado;
     @UpdateTimestamp
     private Date actualizado;
+
+
 
 
     public long getId() {
@@ -102,11 +116,11 @@ public class Estadistica {
         this.memoria_uso = memoria_uso;
     }
 
-    public int getId_servidor() {
+    public long getId_servidor() {
         return id_servidor;
     }
 
-    public void setId_servidor(int id_servidor) {
+    public void setId_servidor(long id_servidor) {
         this.id_servidor = id_servidor;
     }
 
