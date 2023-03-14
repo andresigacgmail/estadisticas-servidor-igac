@@ -37,6 +37,7 @@ public class ServidorServiceImpl implements ServidorService {
             return null;
         }
 
+        servidorOptional.get().setNombre(servidor.getNombre());
         servidorOptional.get().setIp_publica(servidor.getIp_publica());
         servidorOptional.get().setIp_local(servidor.getIp_local());
 

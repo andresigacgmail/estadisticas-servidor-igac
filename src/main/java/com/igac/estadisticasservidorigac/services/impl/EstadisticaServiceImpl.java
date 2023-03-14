@@ -47,9 +47,9 @@ public class EstadisticaServiceImpl implements EstadisticaService {
     public Map<String, Object> grupoEstadisticas(long id){
         Map<String, Object> map = new HashMap<>();
         List<Estadistica> estadisticas = estadisticaRepository.findEstadisticasById_servidor(id);
-        Optional<Estadistica> estadistica = estadisticaRepository.findById(id);
+        Optional<Servidor> servidor = servidorRepository.findById(id);
 
-        map.put("Servidor", estadistica);
+        map.put("Servidor", servidor);
         map.put("Estadisticas", estadisticas);
         return map;
     }

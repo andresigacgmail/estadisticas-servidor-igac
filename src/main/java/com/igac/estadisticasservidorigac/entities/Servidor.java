@@ -13,8 +13,9 @@ public class Servidor {
     public Servidor() {
     }
 
-    public Servidor(long id, String ip_publica, String ip_local, Date creado, Date actualizado) {
+    public Servidor(long id, String nombre, String ip_publica, String ip_local, Date creado, Date actualizado) {
         this.id = id;
+        this.nombre = nombre;
         this.ip_publica = ip_publica;
         this.ip_local = ip_local;
         this.creado = creado;
@@ -24,6 +25,8 @@ public class Servidor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    private String nombre;
 
     private String ip_publica;
 
@@ -74,5 +77,13 @@ public class Servidor {
 
     public void setActualizado(Date actualizado) {
         this.actualizado = actualizado;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }
