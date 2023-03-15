@@ -16,6 +16,8 @@ import java.util.*;
 public class EstadisticaServiceImpl implements EstadisticaService {
 
 
+    private final String HTTP = "http://";
+    private final String PUERTO_ENDPOINT = ":8080/stat";
     @Autowired private RestTemplate restTemplate;
 
     @Autowired private ServidorRepository servidorRepository;
@@ -48,11 +50,24 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         Map<String, Object> map = new HashMap<>();
         List<Estadistica> estadisticas = estadisticaRepository.findEstadisticasById_servidor(id);
         Optional<Servidor> servidor = servidorRepository.findById(id);
+        List<String> anos = estadisticaRepository.listaDeAnos(id);
 
-        map.put("Servidor", servidor);
-        map.put("Estadisticas", estadisticas);
+        map.put("servidor", servidor);
+        map.put("estadisticas", estadisticas);
+        map.put("anos", anos);
         return map;
     }
+
+    public List<String> listaDeAnos(long id_servidor){
+        return estadisticaRepository.listaDeAnos(id_servidor);
+    }
+
+    public List<Estadistica> consultarPorFechas(long id, String ano, String mes, String dia){
+        System.out.println(ano);
+        return estadisticaRepository.consultarPorAnos(id, ano);
+    }
+
+
 
 
     private Estadistica dtoToEntity(EstadisticaDto estadisticaDto, long id){
