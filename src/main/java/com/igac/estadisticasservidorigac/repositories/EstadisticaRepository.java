@@ -19,13 +19,16 @@ public interface EstadisticaRepository extends JpaRepository<Estadistica, Long> 
     List<String> listaDeAnos(long id_servidor);
 
 
-    @Query(value = "select * from estadisticas e WHERE e.creado like '?1%' ", nativeQuery = true)
-    List<Estadistica> consultarPorAnos(long id, String ano);
+    @Query(value = "select * from estadisticas e WHERE e.id_servidor = ?1 ", nativeQuery = true)
+    List<Estadistica> consultarPorAnos(long id);
 //    List<String> meses(long id, String ano);
 //    List<String> dias(long id, String mes);
 
+    //List<Estadistica> findEstadisticasById_servidor();
 
-//    @Query(value = "select * from estadisticas WHERE id_servidor = :#{#id} and creado LIKE ':#{#id}%'", nativeQuery = true)
-//    List<Estadistica> consultarPorAnos(@Param("id") long id, @Param("ano") String ano);
+
+
+
+
 
 }

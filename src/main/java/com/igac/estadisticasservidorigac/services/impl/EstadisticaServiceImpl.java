@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EstadisticaServiceImpl implements EstadisticaService {
@@ -63,8 +64,11 @@ public class EstadisticaServiceImpl implements EstadisticaService {
     }
 
     public List<Estadistica> consultarPorFechas(long id, String ano, String mes, String dia){
-        System.out.println(ano);
-        return estadisticaRepository.consultarPorAnos(id, ano);
+        List<Estadistica> estadisticas = estadisticaRepository.consultarPorAnos(id);
+        List<Estadistica> estadisticasFiltradas = estadisticas.stream()
+                .filter(estadistica -> estadistica.getCreado().toString().substring(0,4).equals(ano))
+                .collect(Collectors.toList());
+        return estadisticasFiltradas;
     }
 
 
