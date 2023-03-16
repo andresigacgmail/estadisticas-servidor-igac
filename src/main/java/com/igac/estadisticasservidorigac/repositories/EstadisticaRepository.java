@@ -3,10 +3,10 @@ package com.igac.estadisticasservidorigac.repositories;
 import com.igac.estadisticasservidorigac.entities.Estadistica;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EstadisticaRepository extends JpaRepository<Estadistica, Long> {
@@ -19,12 +19,18 @@ public interface EstadisticaRepository extends JpaRepository<Estadistica, Long> 
     List<String> listaDeAnos(long id_servidor);
 
 
-    @Query(value = "select * from estadisticas e WHERE e.id_servidor = ?1 ", nativeQuery = true)
-    List<Estadistica> consultarPorAnos(long id);
-//    List<String> meses(long id, String ano);
+//    @Query(value = "select * from estadisticas e WHERE e.id_servidor = ?1 ", nativeQuery = true)
+//    List<Estadistica> consultarPorAnos(long id);
+
+    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and YEAR(creado) = ?2", nativeQuery = true)
+    List<Estadistica> consultarPorAnos(long id, String ano);
+
+
+    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and YEAR(creado) = ?2 and month(creado) = ?3 ORDER by creado desc LIMIT 1", nativeQuery = true)
+    Optional<Estadistica> tamanoTotalDiscoPorMes(long id, String ano, String mes);
 //    List<String> dias(long id, String mes);
 
-    //List<Estadistica> findEstadisticasById_servidor();
+
 
 
 

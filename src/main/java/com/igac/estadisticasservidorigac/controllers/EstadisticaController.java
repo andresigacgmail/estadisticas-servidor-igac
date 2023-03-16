@@ -1,6 +1,5 @@
 package com.igac.estadisticasservidorigac.controllers;
 
-import com.igac.estadisticasservidorigac.entities.Estadistica;
 import com.igac.estadisticasservidorigac.services.EstadisticaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,11 +37,11 @@ public class EstadisticaController {
     }
 
     @GetMapping("/ano")
-    public ResponseEntity<List<Estadistica>> listaDeAnosPorServidor(
-            @RequestParam("id_servidor") long id_servidor,
-            @RequestParam("ano") String ano,
-            @RequestParam("mes") String mes,
-            @RequestParam("dia") String dia
+    public ResponseEntity<Map<String, Object>> listaDeAnosPorServidor(
+            @RequestParam(name = "id_servidor") long id_servidor ,
+            @RequestParam(name = "ano", defaultValue = "0") String ano,
+            @RequestParam(name = "mes", defaultValue = "0") String mes,
+            @RequestParam(name = "dia", defaultValue = "0") String dia
     ){
         return new ResponseEntity<>(estadisticaService.consultarPorFechas(id_servidor, ano, mes, dia), HttpStatus.OK);
     }
