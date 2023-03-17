@@ -72,7 +72,7 @@ public class EstadisticaServiceImpl implements EstadisticaService {
     public Map<String, Object> consultarPorFechas(long id, String ano, String mes, String dia){
 
         if(!ano.equals("0") && !mes.equals("0") && !dia.equals("0")){
-
+            return consultaPorDia(id, ano, mes, dia);
         }else if(!ano.equals("0") && !mes.equals("0") && dia.equals("0")){
             return consultaSemanasPorMes(id, ano, mes);
         }else if(!ano.equals("0") && mes.equals("0") && dia.equals("0")){
@@ -133,6 +133,21 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
         tamano.put("tamanoTotal", tamanoTotal);
         tamano.put("meses", semanas);
+        return tamano;
+    }
+
+    private Map<String, Object> consultaPorDia(long id, String ano, String mes, String dia){
+
+        servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
+        List<Estadistica> estadisticas = new ArrayList<>();
+
+        Optional<Estadistica> estadistica = estadisticaRepository.estadisticaPorDia(id, ano, mes , dia);
+            estadistica.orElseThrow(() -> new ResourceNotFoundException("Estadistica","id", String.valueOf(id)));
+
+        estadisticas.add(estadistica.get());
+
+        Map<String, Object> tamano = new HashMap<>();
+        tamano.put("estadisticas", estadisticas);
         return tamano;
     }
 
