@@ -2,6 +2,7 @@ package com.igac.estadisticasservidorigac.services.impl;
 
 import com.igac.estadisticasservidorigac.dtos.EstadisticaDto;
 import com.igac.estadisticasservidorigac.dtos.MesDto;
+import com.igac.estadisticasservidorigac.dtos.SemanaDto;
 import com.igac.estadisticasservidorigac.entities.Estadistica;
 import com.igac.estadisticasservidorigac.entities.Servidor;
 import com.igac.estadisticasservidorigac.excepciones.ResourceNotFoundException;
@@ -53,9 +54,9 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
     public Map<String, Object> grupoEstadisticas(long id){
         Map<String, Object> map = new HashMap<>();
-        List<Estadistica> estadisticas = estadisticaRepository.findEstadisticasById_servidor(id);
         Optional<Servidor> servidor = servidorRepository.findById(id);
             servidor.orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
+        List<Estadistica> estadisticas = estadisticaRepository.findEstadisticasById_servidor(id);
         List<String> anos = estadisticaRepository.listaDeAnos(id);
 
         map.put("servidor", servidor);
@@ -69,10 +70,18 @@ public class EstadisticaServiceImpl implements EstadisticaService {
     }
 
     public Map<String, Object> consultarPorFechas(long id, String ano, String mes, String dia){
-        return consultaMesesPorAno(id, ano, mes);
+
+        if(!ano.equals("0") && !mes.equals("0") && !dia.equals("0")){
+
+        }else if(!ano.equals("0") && !mes.equals("0") && dia.equals("0")){
+            return consultaSemanasPorMes(id, ano, mes);
+        }else if(!ano.equals("0") && mes.equals("0") && dia.equals("0")){
+            return consultaMesesPorAno(id, ano);
+        }
+        return null;
     }
 
-    private Map<String, Object> consultaMesesPorAno(long id, String ano, String mes){
+    private Map<String, Object> consultaMesesPorAno(long id, String ano){
 
         servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
         String tamanoTotal = "0";
@@ -82,12 +91,12 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
 
         for (int i = 1; i<=12 ; i++){
-            Optional<Estadistica> estadistica1 = estadisticaRepository.tamanoTotalDiscoPorMes(id, ano, String.valueOf(i));
-            if(estadistica1.isEmpty()){
+            Optional<Estadistica> estadistica = estadisticaRepository.tamanoTotalDiscoPorMes(id, ano, String.valueOf(i));
+            if(estadistica.isEmpty()){
                 meses.add(new MesDto(arrayMeses[i-1], "0"));            }
             else {
-                tamanoTotal = String.valueOf( estadistica1.get().getDisco_total() );
-                meses.add(new MesDto(arrayMeses[i-1], String.valueOf( estadistica1.get().getDisco_uso())));
+                tamanoTotal = String.valueOf( estadistica.get().getDisco_total() );
+                meses.add(new MesDto(arrayMeses[i-1], String.valueOf( estadistica.get().getDisco_uso())));
             }
         }
 
@@ -95,6 +104,48 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         tamano.put("meses", meses);
         return tamano;
     }
+
+
+    private Map<String, Object> consultaSemanasPorMes(long id, String ano, String mes){
+
+        servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
+        String tamanoTotal = "0";
+
+        List<SemanaDto> semanas = new ArrayList<>();
+        Map<String, Object> tamano = new HashMap<>();
+
+        List<Estadistica> estadisticas = estadisticaRepository.tamanoTotalDiscoPorSemana(id, ano, mes);
+        int mesLength = estadisticas.size();
+        int semanaLength = mesLength / 4;
+
+
+        for (int i=0; i<4;i++){
+            Optional<Estadistica> estadistica = estadisticaRepository.estadisticaPorDia(id, ano, mes, String.valueOf(semanaLength));
+            if(estadistica.isPresent()){
+                semanas.add(new SemanaDto("Semana "+String.valueOf(i+1), String.valueOf( estadistica.get().getDisco_uso() )));
+            }else {
+                semanas.add(new SemanaDto("Semana "+String.valueOf(i+1), "0"));
+            }
+            semanaLength = semanaLength +semanaLength;
+        }
+
+
+
+        tamano.put("tamanoTotal", tamanoTotal);
+        tamano.put("meses", semanas);
+        return tamano;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
