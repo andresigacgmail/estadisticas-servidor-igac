@@ -20,7 +20,7 @@ public class Estadistica {
         this.disco_disponible = disco_disponible;
         this.disco_uso = disco_uso;
         this.memoria_total = memoria_total;
-        Memoria_disponible = memoria_disponible;
+        this.memoria_disponible = memoria_disponible;
         this.memoria_uso = memoria_uso;
         this.id_servidor = id_servidor;
     }
@@ -31,7 +31,7 @@ public class Estadistica {
         this.disco_disponible = disco_disponible;
         this.disco_uso = disco_uso;
         this.memoria_total = memoria_total;
-        Memoria_disponible = memoria_disponible;
+        this.memoria_disponible = memoria_disponible;
         this.memoria_uso = memoria_uso;
         this.id_servidor = id_servidor;
         this.creado = creado;
@@ -47,7 +47,7 @@ public class Estadistica {
     private double disco_disponible;
     private double disco_uso;
     private double memoria_total;
-    private double Memoria_disponible;
+    private double memoria_disponible;
     private double memoria_uso;
 
 
@@ -101,11 +101,11 @@ public class Estadistica {
     }
 
     public double getMemoria_disponible() {
-        return Memoria_disponible;
+        return memoria_disponible;
     }
 
     public void setMemoria_disponible(double memoria_disponible) {
-        Memoria_disponible = memoria_disponible;
+        this.memoria_disponible = memoria_disponible;
     }
 
     public double getMemoria_uso() {

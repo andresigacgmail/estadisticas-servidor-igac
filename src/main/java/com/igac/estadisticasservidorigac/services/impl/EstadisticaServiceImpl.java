@@ -1,6 +1,7 @@
 package com.igac.estadisticasservidorigac.services.impl;
 
 import com.igac.estadisticasservidorigac.dtos.EstadisticaDto;
+import com.igac.estadisticasservidorigac.dtos.MesDto;
 import com.igac.estadisticasservidorigac.entities.Estadistica;
 import com.igac.estadisticasservidorigac.entities.Servidor;
 import com.igac.estadisticasservidorigac.excepciones.ResourceNotFoundException;
@@ -17,6 +18,7 @@ import java.util.*;
 public class EstadisticaServiceImpl implements EstadisticaService {
 
 
+    private final String arrayMeses [] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     private final String HTTP = "http://";
     private final String PUERTO_ENDPOINT = ":8080/stat";
     @Autowired private RestTemplate restTemplate;
@@ -75,28 +77,22 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
         String tamanoTotal = "0";
 
-        List<String> datos = new ArrayList<>();
-
-
+        List<MesDto> meses = new ArrayList<>();
         Map<String, Object> tamano = new HashMap<>();
 
 
         for (int i = 1; i<=12 ; i++){
             Optional<Estadistica> estadistica1 = estadisticaRepository.tamanoTotalDiscoPorMes(id, ano, String.valueOf(i));
             if(estadistica1.isEmpty()){
-                datos.add(String.valueOf( "0" ));
-            }
+                meses.add(new MesDto(arrayMeses[i-1], "0"));            }
             else {
-                datos.add(String.valueOf( estadistica1.get().getDisco_uso()));
                 tamanoTotal = String.valueOf( estadistica1.get().getDisco_total() );
+                meses.add(new MesDto(arrayMeses[i-1], String.valueOf( estadistica1.get().getDisco_uso())));
             }
         }
 
         tamano.put("tamanoTotal", tamanoTotal);
-        tamano.put("meses", datos);
-
-
-
+        tamano.put("meses", meses);
         return tamano;
     }
 
