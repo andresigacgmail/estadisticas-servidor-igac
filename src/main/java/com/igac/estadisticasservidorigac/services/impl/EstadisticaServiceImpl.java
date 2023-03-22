@@ -1,5 +1,6 @@
 package com.igac.estadisticasservidorigac.services.impl;
 
+import com.igac.estadisticasservidorigac.dtos.DiscoDto;
 import com.igac.estadisticasservidorigac.dtos.EstadisticaDto;
 import com.igac.estadisticasservidorigac.dtos.MesDto;
 import com.igac.estadisticasservidorigac.dtos.SemanaDto;
@@ -34,7 +35,7 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
         Servidor servidor = servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
 
-        EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_publica()+":8080/stat", EstadisticaDto.class);
+        EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_local()+"/stat", EstadisticaDto.class);
         map.put("Servidor", servidor);
         map.put("Estadistica", estadisticaDto);
 
@@ -46,7 +47,7 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         List<Servidor> servidores = servidorRepository.findAll();
         List<Estadistica> estadisticas = new ArrayList<>();
         for(Servidor servidor : servidores){
-            EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_publica()+":8080/stat", EstadisticaDto.class);
+            EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_local()+"/stat", EstadisticaDto.class);
             estadisticas.add(dtoToEntity(estadisticaDto, servidor.getId()));
         }
         estadisticaRepository.saveAll(estadisticas);
@@ -166,11 +167,19 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
 
     private Estadistica dtoToEntity(EstadisticaDto estadisticaDto, long id){
+        double discoTotal = 0;
+        double discoDisponible = 0;
+        double discoUso = 0;
+        for(DiscoDto discoDto : estadisticaDto.getDiscos()){
+            discoTotal = discoTotal + discoDto.getDisco_total();
+            discoDisponible = discoDisponible + discoDto.getDisco_disponible();
+            discoUso = discoUso + discoDto.getDisco_uso();
+        }
 
         return new Estadistica(
-                estadisticaDto.getDiscos().get(0).getDisco_total(),
-                estadisticaDto.getDiscos().get(0).getDisco_disponible(),
-                estadisticaDto.getDiscos().get(0).getDisco_uso(),
+                discoTotal,
+                discoDisponible,
+                discoUso,
                 estadisticaDto.getMemoria_total(),
                 estadisticaDto.getMemoria_disponible(),
                 estadisticaDto.getMemoria_uso(),
