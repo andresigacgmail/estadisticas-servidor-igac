@@ -6,6 +6,7 @@ import com.igac.estadisticasservidorigac.dtos.MesDto;
 import com.igac.estadisticasservidorigac.dtos.SemanaDto;
 import com.igac.estadisticasservidorigac.entities.Estadistica;
 import com.igac.estadisticasservidorigac.entities.Servidor;
+import com.igac.estadisticasservidorigac.excepciones.HandlerNonUniqueResultException;
 import com.igac.estadisticasservidorigac.excepciones.ResourceNotFoundException;
 import com.igac.estadisticasservidorigac.repositories.EstadisticaRepository;
 import com.igac.estadisticasservidorigac.repositories.ServidorRepository;
@@ -144,6 +145,7 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
         Optional<Estadistica> estadistica = estadisticaRepository.estadisticaPorDia(id, ano, mes , dia);
             estadistica.orElseThrow(() -> new ResourceNotFoundException("Estadistica","id", String.valueOf(id)));
+            estadistica.orElseThrow(() -> new HandlerNonUniqueResultException("Estadistica","Fecha","no unicos"));
 
         estadisticas.add(estadistica.get());
 
