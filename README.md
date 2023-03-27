@@ -20,6 +20,19 @@
 
 
 ```Por ejemplo:
-"http://10.23.13.5:8080/stat" => "{"discos":[{"path":"C:\\","disco_total":126.0,"disco_disponible":87.0,"disco_uso":38.0},{"path":"D:\\","disco_total":31.0,"disco_disponible":28.0,"disco_uso":3.0},{"path":"F:\\","disco_total":399.0,"disco_disponible":191.0,"disco_uso":208.0}],"memoria_total":3.08,"memoria_uso":3.08,"memoria_disponible":1.12}"
+"http://localhost:8081/servidor" => "[
+    {
+        "t_id": 1,
+        "direccion_ip_privada": "10.23.13.11",
+        "direccion_ip_publica": "20.122.69.231",
+        "puerto": "8080",
+        "usuario": "redgeodesica",
+        "contrasenia": "fake123",
+        "nombre": "SCCTPRD02",
+        "alias": "2 x Servidores de clúster",
+        "uso": null,
+        "dominio": null,
+        "tipo_protocolo": 5
+    }]"
 ```
 
