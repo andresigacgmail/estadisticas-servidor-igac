@@ -36,7 +36,7 @@ public class EstadisticaServiceImpl implements EstadisticaService {
 
         Servidor servidor = servidorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Servidor","id",String.valueOf(id)));
 
-        EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_local()+"/stat", EstadisticaDto.class);
+        EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getDireccion_ip_privada()+":"+servidor.getPuerto()+"/stat", EstadisticaDto.class);
         map.put("Servidor", servidor);
         map.put("Estadistica", estadisticaDto);
 
@@ -48,8 +48,8 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         List<Servidor> servidores = servidorRepository.findAll();
         List<Estadistica> estadisticas = new ArrayList<>();
         for(Servidor servidor : servidores){
-            EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getIp_local()+"/stat", EstadisticaDto.class);
-            estadisticas.add(dtoToEntity(estadisticaDto, servidor.getId()));
+            EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getDireccion_ip_privada()+":"+servidor.getPuerto()+"/stat", EstadisticaDto.class);
+            estadisticas.add(dtoToEntity(estadisticaDto, servidor.getT_id()));
         }
         estadisticaRepository.saveAll(estadisticas);
     }
