@@ -48,8 +48,16 @@ public class EstadisticaServiceImpl implements EstadisticaService {
         List<Servidor> servidores = servidorRepository.findAll();
         List<Estadistica> estadisticas = new ArrayList<>();
         for(Servidor servidor : servidores){
-            EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getDireccion_ip_privada()+":"+servidor.getPuerto()+"/stat", EstadisticaDto.class);
-            estadisticas.add(dtoToEntity(estadisticaDto, servidor.getT_id()));
+
+            try {
+                
+                EstadisticaDto estadisticaDto = restTemplate.getForObject("http://"+servidor.getDireccion_ip_privada()+":"+servidor.getPuerto()+"/stat", EstadisticaDto.class);
+                estadisticas.add(dtoToEntity(estadisticaDto, servidor.getT_id()));
+
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+
         }
         estadisticaRepository.saveAll(estadisticas);
     }

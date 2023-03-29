@@ -1,4 +1,4 @@
-//package com.igac.estadisticasservidorigac.timer;
+package com.igac.estadisticasservidorigac.timer;
 //
 //import com.igac.estadisticasservidorigac.services.impl.EstadisticaServiceImpl;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@
 //
 //    }
 //
-//    @Scheduled(fixedDelay = 8000)
+//    @Scheduled(fixedDelay = 86400000)
 //    public  void run() {
 //        System.out.println("seep");
 //        try {
