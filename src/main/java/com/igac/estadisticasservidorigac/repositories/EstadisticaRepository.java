@@ -23,13 +23,13 @@ public interface EstadisticaRepository extends JpaRepository<Estadistica, Long> 
     List<Estadistica> consultarPorAnos(long id, String ano);
 
 
-    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and extract(year from creado) = ?2 and extract(month from creado) = ?3 ORDER by creado desc LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and cast( cast( extract( year from creado) as int ) as text) = ?2 and cast( cast( extract(month from creado) as int ) as text) = ?3 ORDER by creado desc LIMIT 1", nativeQuery = true)
     Optional<Estadistica> tamanoTotalDiscoPorMes(long id, String ano, String mes);
 
-    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and extract(year from creado) = ?2 and extract(month from creado) = ?3 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and cast( cast( extract(year from creado) as int ) as text) = ?2 and cast( cast( extract(month from creado) as int ) as text) = ?3 ", nativeQuery = true)
     List<Estadistica> tamanoTotalDiscoPorSemana(long id, String ano, String mes);
 
-    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and extract(year from creado) = ?2 and extract(month from creado) = ?3 and extract(day from creado) = ?4", nativeQuery = true)
+    @Query(value = "SELECT * FROM estadisticas WHERE id_servidor = ?1 and cast( cast(  extract(year from creado) as int ) as text) = ?2 and cast( cast(  extract(month from creado) as int ) as text) = ?3 and cast( cast(  extract(day from creado) as int ) as text) = ?4", nativeQuery = true)
     Optional<Estadistica> estadisticaPorDia(long id, String ano, String mes, String dia);
 
 
