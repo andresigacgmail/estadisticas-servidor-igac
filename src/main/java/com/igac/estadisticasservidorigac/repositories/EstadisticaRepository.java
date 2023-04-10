@@ -15,7 +15,7 @@ public interface EstadisticaRepository extends JpaRepository<Estadistica, Long> 
     List<Estadistica> findEstadisticasById_servidor(long id);
 
 
-    @Query(value = "select distinct( extract(year from creado) ) as year from estadisticas e WHERE e.id_servidor = ?1", nativeQuery = true)
+    @Query(value = "select distinct( cast ( extract(year from creado) as int) ) as year from estadisticas e WHERE e.id_servidor = ?1", nativeQuery = true)
     List<String> listaDeAnos(long id_servidor);
 
 
